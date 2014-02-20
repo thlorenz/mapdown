@@ -22,10 +22,13 @@ module.exports = Mapper;
  * @param {String} markdownText 
  */
 function Mapper (markdown) {
+  if (!(this instanceof Mapper)) return new Mapper(markdown);
   this._update(markdown);
 }
 
+var proto = Mapper.prototype;
 Mapper.prototype._update = function (markdown) {
+
   this._markdown = markdown;
 
   var markedWhitespace = whitespace.mark(markdown);
@@ -100,19 +103,23 @@ Mapper.prototype.surroundRaw = function (from, to, s) {
 }
 
 
-/*var fs = require('fs');
+// Test
+if (!module.parent && typeof window === 'undefined') {
+  
+  /*var fs = require('fs');
 
-var readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
-var mapper = new Mapper(readme);*/
+  var readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
+  var mapper = new Mapper(readme);*/
 
-var mdText = [
-    '# MyTitle'
-  , ''
-  , 'My 3rd line'
-  , ''
-  , '## My SubTitle'
-].join('\n')
+  var mdText = 
+    [ '# MyTitle'
+    , ''
+    , 'My 3rd line'
+    , ''
+    , '## My SubTitle'
+  ].join('\n')
 
-var mapper = new Mapper(mdText);
-inspect(mapper.renderMarkdown())
-inspect(mapper.renderRaw())
+  var mapper = new Mapper(mdText);
+  inspect(mapper.renderMarkdown())
+  inspect(mapper.renderRaw().split('\n'))
+}
